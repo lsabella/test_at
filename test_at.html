@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style type="text/css">
+        .input{  
+            width:200px;  
+            height:auto;  
+            line-height:24px;  
+            font-size:14px;  
+            padding:5px 8px;  
+            border:1px solid #ddd;  
+        }  
+        .input:empty::before {  
+            content: attr(placeholder);  
+        }  
+  
+</style>
+<body>
+    <div class="input" contenteditable="true" id="divTest" x>
+        
+   </div>
+<!--    <div id="fileinfo" style="padding-bottom: 1.5rem;">
+          <div id='+value.fileId1+' style="border-bottom: 0.01rem solid #cecece78;padding: 0.2rem 0;">
+          <span class="prediv" id='+index1+' 
+          data-prespaceId='+value.spaceId+1' 
+          data-prefileType='+value.fileType+1' 
+          data-prefileId='+value.fileId+1' 
+          data-prefileName='+value.fileName+1' 
+          data-prefileSize='+value.fileSize+1'>
+           <i class="glyphicon glyphicon-file" style="font-size: 0.24rem;padding-right: 0.1rem;">
+           </i>
+             <span>附件名称:
+                <span>value.fileName1
+             </span>
+            </span>
+           </span>
+          <i data-id='+value.fileId+1' class="deletebtn glyphicon glyphicon-remove" style="color:#ff6c62;font-size: 0.24rem;margin-left: 2rem;">
+          </i>
+      </div>
+
+
+
+          <div id='+value.fileId2+' style="border-bottom: 0.01rem solid #cecece78;padding: 0.2rem 0;">
+          <span class="prediv" id='+index2+' 
+          data-prespaceId='+value.spaceId+2' 
+          data-prefileType='+value.fileType+2' 
+          data-prefileId='+value.fileId+2' 
+          data-prefileName='+value.fileName+2' 
+          data-prefileSize='+value.fileSize+2'>
+           <i class="glyphicon glyphicon-file" style="font-size: 0.24rem;padding-right: 0.1rem;">
+           </i>
+             <span>附件名称:
+                <span>value.fileName2
+             </span>
+            </span>
+           </span>
+          <i data-id='+value.fileId+2' class="deletebtn glyphicon glyphicon-remove" style="color:#ff6c62;font-size: 0.24rem;margin-left: 2rem;">
+          </i>
+      </div>
+
+
+          <div id='+value.fileId3+' style="border-bottom: 0.01rem solid #cecece78;padding: 0.2rem 0;">
+          <span class="prediv" id='+index3+' 
+          data-prespaceId='+value.spaceId+3' 
+          data-prefileType='+value.fileType+3' 
+          data-prefileId='+value.fileId+3' 
+          data-prefileName='+value.fileName+3' 
+          data-prefileSize='+value.fileSize+3'>
+           <i class="glyphicon glyphicon-file" style="font-size: 0.24rem;padding-right: 0.1rem;">
+           </i>
+             <span>附件名称:
+                <span>value.fileName3
+             </span>
+            </span>
+           </span>
+          <i data-id='+value.fileId+3' class="deletebtn glyphicon glyphicon-remove" style="color:#ff6c62;font-size: 0.24rem;margin-left: 2rem;">
+          </i>
+      </div>
+   </div> -->
+<button onclick="getFromOrg1()">输入@</button>
+<button onclick="getFromOrg2()">点击@</button>
+<button onclick="getEmpid()">显示</button>
+<!-- <button onclick="getSpaceId()">显示</button>
+ -->
+</body>
+<script>
+    var empids=[];
+    var userIds; 
+    var atshownames = [];
+    var comval;
+    var atsbnames;
+
+    
+
+
+
+   function getSpaceId(){
+    var anlist=[];
+        $("#fileinfo span[class='prediv']").each(function(index,value){
+         // empids.push($(this)[0].id);
+         // atshownames.push($(this)[0].defaultValue)
+         console.log($(this))
+         console.log($(this)[0].dataset)
+         anlist.push($(this)[0].dataset)
+        });
+        console.log(anlist)
+    };
+
+
+
+
+
+    function getEmpid(){
+        empids.length = 0;
+        atshownames.length = 0;
+        $("#divTest input[type='button']").each(function(index,value){
+         empids.push($(this)[0].id);
+         atshownames.push($(this)[0].defaultValue)
+         console.log($(this))
+        });
+        getUserIds(empids.toString())
+        getInputVal(atshownames.toString())
+        getdivTestVal()
+    };
+    function getInputVal(obj){
+        atsbnames = obj.replace(new RegExp(',','gm'),'');
+        console.log(atsbnames)
+    };
+    function getUserIds(obj){
+        userIds = obj
+        console.log(userIds)
+    };
+    function getdivTestVal(){
+        var comtext = $("#divTest")[0].innerText.trim();
+        console.log(comtext,'监听这里@的出现')
+        comval=atsbnames.concat(' ',comtext);
+        //This comval is append in log
+        console.log(comval.trim());   
+    };
+    //@ key
+    function getFromOrg1(){
+       var data = {
+            "38466-11111":"柏树",
+            "38466-22222":"断章",
+            "38466-33333":"宫本"
+        };
+        getFromOrg(data)
+    };
+    //@ button
+    function getFromOrg2(){
+       var data = {
+            "38466-44444":"哈哈",
+            "38466-55555":"啦啦",
+            "38466-66666":"花花"
+        };
+        getFromOrg(data);
+        return true;
+    };
+    function getFromOrg(data){
+        //this data is from org 
+        for(var o in data){  
+            $('#divTest').append("<input id='"+o+"' type='button' value="+"@"+data[o]+">");
+        }          
+    };
+    //监听 这个暂时还不行啊
+    var divTest = $('#divTest');//the element I want to monitor
+    divTest.bind('DOMCharacterDataModified', function(e) {
+        console.log('element now contains: '  + $(e.target).html());
+         var str = $(e.target).html()
+         getFromOrg2()
+        console.log(str.substr(str.length-1,1)=="@")
+        // var str = $(e.target).html()
+        // console.log(str.length-1)
+        // if(str.charAt(str.length - 1)=="@"){
+        //     getFromOrg1()
+        // };
+    });
+    // divTest.keyup(function(e){
+    //  if(e.key=="@"){
+    //     if(getFromOrg2()){
+    //        console.log(e)
+    //     }
+    //  }
+    // });
+ </script>
+<!--  <script type="text/javascript">
+function getannexsListslast(){
+    var anlist = [
+    {
+        "prespaceid":"646466464",
+        "prefiletype":"jpg",
+        "prefileid":"idshcoisdh",
+        "prefilename":"122333",
+        "prefilesize":"8888"
+    },
+    {
+        "prespaceid":"646466464",
+        "prefiletype":"jpg",
+        "prefileid":"idshcoisdh",
+        "prefilename":"122333",
+        "prefilesize":"7777"
+    },
+    {
+        "prespaceid":"646466464",
+        "prefiletype":"jpg",
+        "prefileid":"idshcoisdh",
+        "prefilename":"122333",
+        "prefilesize":"6666"
+    }
+    ];
+    var filelists = [];
+    $.each(anlist,function(index,value){
+       console.log(index,value)
+       var obj={};
+       obj.spaceId = value.prespaceid;
+       obj.format = value.prefiletype;
+       obj.fileId = value.prefileid;
+       obj.name = value.prefilename;
+       obj.fileSize = value.prefilesize;
+       filelists.push(obj)
+    })
+    console.log(filelists)
+} ;
+getannexsListslast();  
+ </script> -->
+</html>

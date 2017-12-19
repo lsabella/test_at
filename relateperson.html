@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<style type="text/css">
+        .input{  
+            width:200px;  
+            height:auto;  
+            line-height:24px;  
+            font-size:14px;  
+            padding:5px 8px;  
+            border:1px solid #ddd;  
+        }  
+        .input:empty::before {  
+            content: attr(placeholder);  
+        }  
+  
+</style>
+<body>
+	<div>
+		<div>相关执行人员<button style="margin-left:0.5rem;width:1.5rem;height:1.5rem;border-radius:60%;background-color: #f2f2f2;" onclick="addPerson1()">+</button><button style="margin-left:0.5rem;width:1.5rem;height:1.5rem;border-radius:60%;background-color: #f2f2f2;" onclick="addPerson2()">+</button></div>
+	    <div class="input" id="relativeLists" style="width: 20rem">
+	        
+	    </div>
+	    <button id='save'>保存</button>
+    </div>
+</body>
+<script type="text/javascript">
+    var nickname = "哈哈(小哈),啦啦（小啦）,花花(小花)"
+	var relativeEmpids=[],relativeName=[];
+    var isrelativeChange=0;
+	function addPerson1(){
+		console.log(111)
+		var data = {
+            "38466-44444":"哈哈(小哈)",
+            "38466-55555":"啦啦（小啦）",
+            "38466-66666":"花花(小花)"
+        };
+        getRelativeperson(data);
+	};
+	function addPerson2(){
+		console.log(111)
+		var data = {
+            "38466-11111":"哈哈(哈小)",
+            "38466-22222":"啦花(啦啦)",
+            "38466-33333":"小花（花花）"
+        };
+        getRelativeperson(data);
+	};
+
+
+
+    function getRelativeperson(data){
+        //this data is from org 
+        for(var o in data){  
+            $('#relativeLists').append("<input data-empid='"+o+"' data-name='"+data[o]+"' id='"+o+"' style='background-color:#598EDE;color:white;' type='button' value="+data[o]+"X"+" onclick='getWhichperson($(this))'>");
+        }          
+    };
+    function getWhichperson(obj){
+    	console.log(obj.remove());
+    };
+    $('#save').click(getRelativeDates);
+    function getRelativeDates(){
+        relativeName.length=0;
+        relativeEmpids.length=0;
+        $("#relativeLists input[type='button']").each(function(index,value){
+               relativeEmpids.push($(this)[0].dataset.empid);
+               relativeName.push($(this)[0].dataset.name)
+       });
+        console.log(relativeEmpids.toString())
+        isChangeRelativedatas(relativeName.toString());
+        console.log(relativeName.toString())
+        // console.log(relativeEmpids,relativeName)
+    };
+    //比对人员是否变动
+    function isChangeRelativedatas(obj){
+         var orginalen = nickname.split(',').length;
+         if(orginalen!==obj.split(',').length){
+            console.log('设置1')
+            isrelativeChange = 1
+         }else{
+            $.each(obj.split(','),function(index,value){
+               if(nickname.indexOf(value) <0){
+                isrelativeChange = 1;
+               }
+            })
+         };
+         console.log(isrelativeChange,'last result')
+    };
+
+</script>
+</html>
